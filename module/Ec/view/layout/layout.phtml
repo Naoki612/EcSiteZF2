@@ -1,0 +1,189 @@
+<?php echo $this->doctype(); ?>
+
+<html lang="ja">
+    <head>
+        <meta charset="utf-8">
+        <?php echo $this->headTitle('ZF2 '. $this->translate('Skeleton Application'))->setSeparator(' - ')->setAutoEscape(false) ?>
+
+        <?php echo $this->headMeta()
+            ->appendName('viewport', 'width=device-width, initial-scale=1.0')
+            ->appendHttpEquiv('X-UA-Compatible', 'IE=edge')
+        ?>
+
+        <!-- Le styles -->
+        <?php echo $this->headLink(array('rel' => 'shortcut icon', 'type' => 'image/vnd.microsoft.icon', 'href' => $this->basePath() . '/img/favicon.ico'))
+                        ->prependStylesheet($this->basePath('css/style.css'))
+                        ->prependStylesheet($this->basePath('css/bootstrap-theme.min.css'))
+                        ->prependStylesheet($this->basePath('css/bootstrap.min.css')) ?>
+
+        <!-- Scripts -->
+        <?php echo $this->headScript()
+            ->prependFile($this->basePath('js/bootstrap.min.js'))
+            ->prependFile($this->basePath('js/jquery.min.js'))
+            ->prependFile($this->basePath('js/respond.min.js'), 'text/javascript', array('conditional' => 'lt IE 9',))
+            ->prependFile($this->basePath('js/html5shiv.min.js'),   'text/javascript', array('conditional' => 'lt IE 9',))
+        ; ?>
+<script>
+<?php if (isset($script)){
+	echo $script;
+}
+?>
+
+/*ログイン画面用*/
+$(function(){
+    // 「id="login"」を非表示
+    $("#login").css("display", "none");
+ 
+    // 「id="loginBtn"」がクリックされた場合
+    $("#loginBtn").click(function(){
+        // 「id="login"」の表示、非表示を切り替える
+        $("#login").toggle();
+		hsize = $(window).height();
+		$("#login").css("height", hsize + "px");
+		$('body').css("overflow", "hidden");
+    });
+	$(window).resize(function () {
+		hsize = $(window).height();
+		$("#login").css("height", hsize + "px");
+		$('body').css("overflow", "hidden");
+	});
+	$("#login").click(function(e){
+		if(!$.contains($("#login")[0], e.target)){
+	        // 「id="login"」の表示、非表示を切り替える
+	        $("#login").toggle();
+			$('body').css("overflow", "");
+		}
+	});
+
+});
+</script>
+</head>
+<body>
+<div id="header">
+	<div id="headerTop">
+		<div id="cmArea"><!-- cmエリア日毎に変更javascript PHP のどちらかを使用-->
+			<span class="pirceBatch">本日限定&nbsp;16,200円以上お買い上げで</span><span class="red">送料無料</span>
+<!--変更部分
+			<sapn class="pirceBatch">本日限定&nbsp;10,800円以上お買い上げで</span><span class="red">送料無料</span>
+			<sapn class="pirceBatch">本日限定&nbsp;8,640円以上お買い上げで</span><span class="red">送料無料</span>
+			<sapn class="pirceBatch">本日限定&nbsp;7,560円以上お買い上げで</span><span class="red">送料無料</span>
+			<sapn class="pirceBatch">本日限定&nbsp;5,400円以上お買い上げで</span><span class="red">送料無料</span>
+-->
+		</div>
+		<ul id="topNav">
+		<?php if (!isset($_SESSION['me'])) {?>
+			<li id="loginBtn">ログイン</li>
+			<li><a href="singup/form">会員登録</a></li>
+		<?php } else { echo '<li id="">ようこそ</li><li id=""><a href="?log=out">ログアウト</a></li>
+			<li><a href="salesInfo.php">購入履歴</a></li>'; }?>
+			<li><a href="cart.php">カート</a></li>
+			<li><a href="">ヘルプ</a></li>
+		</ul>
+	</div><!-- /headerTop -->
+</div><!-- header -->
+<div id="login">
+	<form id="loginForm" method="post" action="">
+		<label class="clearfix" for="loginMail">ユーザーID または  メールアドレス</label><input class="clearfix" id="loginMail" type="text" name="username">
+		<label class="clearfix" for="loginPW">パスワード</label><input id="loginPW" type="text" class="clearfix" name="password">
+		<button>ログイン</button>
+		<button>新規登録</button>
+	</form>
+</div>
+<!--loginおしまい-->
+<header>
+	<div id="logo">
+		<div id="hlogo">
+			<a href="top.php"><img src="img/top.png" width="150px" border="1px"></a>
+		</div>
+		<div id="itemBrandWrapper" class="clearfix">
+			<ul class="clearfix" >
+			<?php foreach ($this->brands as $key => $brand) { ?>
+				<li><a href="itemView.php?brandNo=<?= $brand['brandNo']?>"> >> <?=$brand['brandName']?></a></li>
+			<?php }?>
+			</ul>
+		</div><!-- /itemBrandWrapper -->
+		<div class="formSearch">
+			<input type="text" size="18" value="何をお探しですか？">
+			<button>検索</button>
+		</div>
+	   <!-- 検索フォーム-->
+	</div><!-- /logo ロゴ閉じタグ-->
+	<nav id="gNav">
+		<div id="gNaviInner" class="clearfix">
+			<ul class="mainMenu" id="genderMenu">
+				<li id="Nmen">
+					<a href="itemView.php?ItemSex=1">メンズ<span class=""> <i class=""></i></span></a>
+					<div class="hoverMenu">
+						<ul>
+							<li><a href=""><i class=""></i> NIKE</a></li>
+							<li><a href=""><i class=""></i> PUMA</a></li>
+							<li><a href=""><i class=""></i> REEBOK</a></li>
+							<li><a href=""><i class=""></i> Asics</a></li>
+						</ul>
+					</div><!---->
+				</li><!--Nmen-->
+				<li id="Nwomen">
+					<a href="itemView.php?ItemSex=0">レディース<span class=""> <i class=""></i></span></a>
+					<div class="hoverMenu">
+						<ul>
+							<li><a href=""><i class=""></i> NIKE</a></li>
+							<li><a href=""><i class=""></i> PUMA</a></li>
+							<li><a href=""><i class=""></i> REEBOK</a></li>
+							<li><a href=""><i class=""></i> Asics</a></li>
+						</ul>
+					</div><!---->
+				</li><!--Nmen-->
+				<li id="Nkids">
+					<a href="youItem.php">フィットする靴を探す<span class=""> <i class=""></i></span></a>
+					<div class="hoverMenu">
+						<ul>
+							<li><a href=""><i class=""></i> NIKE</a></li>
+							<li><a href=""><i class=""></i> PUMA</a></li>
+							<li><a href=""><i class=""></i> REEBOK</a></li>
+							<li><a href=""><i class=""></i> Asics</a></li>
+						</ul>
+					</div><!---->
+				</li><!--Nmen-->
+				<li id="Noutlet">
+					<a href="">セール<span class=""> <i class=""></i></span></a>
+					<div class="hoverMenu">
+						<ul>
+							<li><a href=""><i class=""></i> NIKE</a></li>
+							<li><a href=""><i class=""></i> PUMA</a></li>
+							<li><a href=""><i class=""></i> REEBOK</a></li>
+							<li><a href=""><i class=""></i> Asics</a></li>
+						</ul>
+					</div><!---->
+				</li><!--Nmen-->
+			</ul><!--mainMenu-->
+		</div><!--gNaviInner-->
+	</nav><!--gNav-->
+</header>
+
+        <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+            <div class="container">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <a class="navbar-brand" href="<?php echo $this->url('home') ?>"><img src="<?php echo $this->basePath('img/zf2-logo.png') ?>" alt="Zend Framework 2"/>&nbsp;<?php echo $this->translate('Skeleton Application') ?></a>
+                </div>
+                <div class="collapse navbar-collapse">
+                    <ul class="nav navbar-nav">
+                        <li class="active"><a href="<?php echo $this->url('home') ?>"><?php echo $this->translate('Home') ?></a></li>
+                    </ul>
+                </div><!--/.nav-collapse -->
+            </div>
+        </nav>
+        <div class="container">
+            <?php echo $this->content; ?>
+            <hr>
+            <footer>
+                <p>&copy; 2005 - <?php echo date('Y') ?> by Zend Technologies Ltd. <?php echo $this->translate('All rights reserved.') ?></p>
+            </footer>
+        </div> <!-- /container -->
+        <?php echo $this->inlineScript() ?>
+    </body>
+</html>
